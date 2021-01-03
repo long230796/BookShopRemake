@@ -3,6 +3,8 @@
 <head th:replace="layoutMDB :: head">
 </head>
 	<title>Đăng nhập</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta charset="utf-8">
 </head>
 <body class="p-0">
 	<div th:replace="layoutMDB ::header"></div>
@@ -12,11 +14,10 @@
 		    <p class="h4 mb-4">Đăng nhập</p>
 		    <div th:if="${#request.getParameter('error') == 'true'}"
 		            style="color:red;margin:10px 0px;">
-		         Login Failed!!!<br />
-		         Reason :
-		         <span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
-		            th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
-		                Static summary
+		         Đăng nhập thất bại!!!<br />
+		         <span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}" >
+		            <!-- th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}" --> 
+		                Sai tên đăng nhập hoặc mật khẩu
 		         </span>        
 		    </div>
 	

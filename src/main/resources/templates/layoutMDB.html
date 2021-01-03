@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head">
 	<title>BookShop</title>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<!-- MDB icon -->
 	<link rel="icon" href="/MDB-free/img/mdb-favicon.ico" type="image/x-icon">
 	<!-- Font Awesome -->
@@ -59,7 +61,7 @@
 			</div>
 			
 			<div class="logout" style="">
-				<button th:if="${#request.userPrincipal != null}" onclick="window.location.href='/logout'" type="button" class="btn btn-info p-2 pr-4 pl-4" style="font-size: 10px">Đăng xuất</button>
+				<button th:if="${#request.userPrincipal != null}" onclick="var result = confirm('Bạn có muốn đăng xuất không?'); if (result == true) {window.location.href='/logout'}" type="button" class="btn btn-info p-2 pr-4 pl-4" style="font-size: 10px">Đăng xuất</button>
 			</div>
 		</div>
 	</div>

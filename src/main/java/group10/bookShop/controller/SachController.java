@@ -526,7 +526,7 @@ public String save(Model model, @Valid @ModelAttribute("book") Sach book, Bindin
 	@GetMapping("/book/{masach}/delete")
 	public String delete(@PathVariable int masach, RedirectAttributes redirect) {
 		bookService.delete(masach);
-	    redirect.addFlashAttribute("successMessage", "Deleted contact successfully!");
+	    redirect.addFlashAttribute("successMessage", "Deleted book successfully!");
 	    return "redirect:/book";
 	}
 }

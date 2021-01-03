@@ -42,11 +42,12 @@
                 	</div>
                     
                    	<div class=" align-items-center">
-                  		<a th:if="${#request.userPrincipal != null}" href="#" th:href="@{/book/{masach}/edit(masach=${book.masach})}" class="text-primary mr-sm-2"> <!-- (masach=${book.masach}) truyền giá trị cho {id} -->
+                  		<a th:if="${#request.userPrincipal != null}" href="#" th:href="@{/book/{masach}/edit(masach=${book.masach})}" onclick="updateBook()"  class="text-primary mr-sm-2"> <!-- (masach=${book.masach}) truyền giá trị cho {id} -->
 							<i class="fas fa-pencil-alt"></i>
 						</a>
 
-						<a th:if="${#request.userPrincipal != null}" href="#" th:href="@{/book/{masach}/delete(masach=${book.masach})}" class="text-danger">
+						<a th:if="${#request.userPrincipal != null}" href="#" onclick="deleteBook()" class="text-danger">
+							<form id="deleteBook" th:action="@{/book/{masach}/delete(masach=${book.masach})}" method="GET" class="d-none"></form>
 							<i class="fas fa-trash"></i>
 						</a>
 					</div>
@@ -225,6 +226,13 @@
 				document.getElementsByClassName("numberErr")[0].style.display="block"
 			}
 			
+		}
+		
+		function deleteBook(){
+			var result = confirm("Bạn có muốn xóa không ?") 
+			if (result == true) {
+				document.getElementById("deleteBook").submit()
+			}
 		}
 		
 	</script>
