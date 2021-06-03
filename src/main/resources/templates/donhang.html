@@ -197,6 +197,14 @@
 				</table>
 
 			</div>
+		<div class="d-flex flex-column">
+			<a th:if="${bills.trangthai == 0}" href="#" th:href="@{/book/{madonhang}/xacnhandonhang(madonhang=${bills.madonhang})}" class="btn btn-success btn-rounded" >Xác nhận đơn hàng</a>
+			<a th:if="${bills.trangthai == 1}" href="#" th:href="@{/book/{madonhang}/xacnhanthanhtoan(madonhang=${bills.madonhang})}" class="btn btn-success btn-rounded" >Xác nhận thanh toán</a>
+			<button th:if="${bills.trangthai == 1 || bills.trangthai == 0}" th:onclick="|cancelBook('${bills.madonhang}')|" class="btn btn-danger btn-rounded" >Hủy Đơn hàng</button>
+			<div th:if="${bills.trangthai == 2}" class="alert alert-danger text-center" role="alert">Đã Hủy</div>
+			<div th:if="${bills.trangthai == 3}" class="alert alert-success text-center" role="alert">Đã Thanh toán</div>
+
+		</div>
 			
 		
 		</div>
@@ -213,8 +221,19 @@
   <script type="text/javascript" src="/MDB-free/js/uploadFile.js"></script>
   <script type="text/javascript">
 		$('.toast').toast('show');
+		
   </script>
+  
+  
 
 
 </body>
+<script>
+function cancelBook(madonhang){
+	var result = confirm("Bạn có muốn hủy đơn hàng này ?") 
+	if (result == true) {
+		window.location.href = "/book/" + madonhang + "/huydonhang";
+	}
+}
+</script>
 </html>

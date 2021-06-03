@@ -10,6 +10,13 @@ import group10.bookShop.entities.Hoadon;
 
 @Repository
 public interface HoadonRepository extends CrudRepository<Hoadon, Integer>{
+	
 	List<Hoadon> findByMadonhangContaining(int madonhang);  // tìm kiếm theo line và theo đúng tên mà mình mong muốn
+	
+	List<Hoadon> findAll();
+	
+	List<Hoadon> findByOrderByMadonhangDesc();
+	
+	List<Hoadon> findByMasach(int masach);
 }
 

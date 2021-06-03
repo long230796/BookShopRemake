@@ -21,8 +21,8 @@ import group10.bookShop.entities.UserRole;
 @Repository
 public interface SachRepository extends CrudRepository<Sach, Integer>{
 	
-	// interger la kieu du lieu khoa chinh cua contact entity
-		// lớp crud cung cấp các method như là thêm xóa sửa, không cần implementation mà nó tự tạo khi runtime 
+	// interger la kieu du lieu khoa chinh cua  entity
+	// lớp crud cung cấp các method như là thêm xóa sửa, không cần implementation mà nó tự tạo khi runtime 
 		
 	List<Sach> findByTensachContaining(String term);  // tìm kiếm theo line và theo đúng tên mà mình mong muốn
     List<Sach> findByOrderByMasachDesc();

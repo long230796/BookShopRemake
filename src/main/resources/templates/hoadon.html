@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layoutMDB :: head">
+</head>
+	<title>Đăng nhập</title>
+</head>
+<body class="p-0">
+	<div th:replace="layoutMDB ::header"></div>
+	<div class="container">
+		
+		 <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+		        <span th:text="${successMessage}"></span>
+		        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		            <span aria-hidden="true">&times;</span>
+		        </button>
+		  </div>
+		  
+		  <div th:if="${alertMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+		        <span th:text="${alertMessage}"></span>
+		        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		            <span aria-hidden="true">&times;</span>
+		        </button>
+		  </div>
+		
+		<div class="new-books mw-100 d-flex flex-column pt-4 pl-2" style="background-color: #ffffff">
+			<div >
+				<h2 class="section-heading"  style="border-bottom: 1px solid #e1dcdc; text-align: start">
+					<b>Hóa đơn</b>
+					<i class="fab fa-hotjar"></i>
+				</h2>
+			</div>
+
+			<div  class="card-container d-flex justify-content-around flex-wrap">
+				<div th:each="hoadon, iterStat : ${bills}"  class="card m-2" style="width: 200px">
+					<!-- Card image -->
+					<div class="view overlay zoom">
+						<a href="#" th:href="@{/book/{madonhang}/chitietdonhang(madonhang=${hoadon.madonhang})}" class="text-primary mr-sm-2">
+							<img class=" card-img-top" style="max-width: 100%;" src="/image/bills.jpg" >
+						</a>							
+					</div>
+					<!-- Card content -->
+					<div class="card-body">
+
+						<!-- Text -->
+						Mã đơn hàng: 
+						<p th:text="${hoadon.madonhang}" class="card-text"></p>
+
+						Trạng thái:
+						
+						<p th:if="${hoadon.trangthai == 0}" class="card-text text-warning">Chờ xác nhận</p>
+						<p th:if="${hoadon.trangthai == 1}" class="card-text " style="color: #ff00c9;">Chờ thanh toán</p>
+						<p th:if="${hoadon.trangthai == 2}" class="card-text text-danger">Đã Hủy</p>
+						<p th:if="${hoadon.trangthai == 3}" class="card-text text-success">Đã thanh toán</p>
+						
+
+						<!-- Số điện thoại:
+						<p th:text="${hoadon.sodienthoainguoimua}" class="card-text"></p> -->
+						
+						<p th:text="${hoadon.ngayxuatban}" class="card-text"></p>
+
+
+					</div>
+				</div>			
+				
+			</div>
+
+	</div>
+	</div>
+</body>
+</html>

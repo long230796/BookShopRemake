@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import group10.bookShop.entities.AppUser;
 
-
+//  sử dụng để thao tác với bảng APP_USER. tìm kiếm một người dùng trong Database ứng với tên đăng nhập nào đó.
 @Repository
 @Transactional
 public class AppUserDAO {
- 
+	
     @Autowired
     private EntityManager entityManager;
  

@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 import group10.bookShop.entities.Cart;
@@ -58,6 +59,20 @@ public class SachController {
 	private UserService userService;
 	
 	
+	@GetMapping("/book/admin/donhang")
+	public String hoadon(Model model) {
+		try {
+			model.addAttribute("bills", hoadonService.findMadonhangDesc());
+			
+		}catch(NullPointerException e) {
+			model.addAttribute("errorMessage", e);
+		}
+		
+		return "hoadon";
+	}
+	
+	
+	
 	@GetMapping("/book")
 	public String list(Model model) {
 		try {
@@ -85,6 +100,7 @@ public class SachController {
 	public String foreignLanguage(Model model) {
 		try {
 			model.addAttribute("foreignLanguages", bookService.findSachByTheloai("sachngoaingu"));
+			
 		}catch(NullPointerException e) {
 			model.addAttribute("errorMessage", e);
 		}
@@ -171,7 +187,7 @@ public class SachController {
 		return "search";
 	}
 	
-	@GetMapping("/book/add")
+	@GetMapping("/book/admin/add")
 	public String add(Model model) {
 	    model.addAttribute("book", new Sach());  // khởi tạo mới 1 đối tượng và gửi lên form Mỗi thuộc tính của contact tương ứng với một input trong form.
 	    return "addBook";
@@ -281,7 +297,7 @@ public class SachController {
 	
 	@PostMapping("/book/{masach}/printBill")
 	public String save( Model model,@Valid @ModelAttribute("bills") Hoadon bills, BindingResult result, RedirectAttributes redirect,
-			@PathVariable("masach") Integer masach) {  // @Valid Contact contact để kích hoạt cơ chế validation cho contact(trong entities ), lấy result làm biding
+			@PathVariable("masach") Integer masach) {  // @Valid Contact contact để kích hoạt cơ chế validation (trong entities ), lấy result làm biding
 		
     	Sach ms = bookService.findById(masach);
     	System.out.println(bills.getSoluong());
@@ -305,6 +321,7 @@ public class SachController {
 	    bills.setTheloai(ms.getTheloai());
 	    bills.setTensach(ms.getTensach());
 	    bills.setMasach(ms.getMasach());
+	    bills.setTrangthai(0);
 	    ms.setSoluongdaban(ms.getSoluongdaban() + bills.getSoluong());
 	    ms.setTonkho(ms.getTonkho() - bills.getSoluong());
 	    bills.setNgayxuatban(LocalDateTime.now());
@@ -324,36 +341,127 @@ public class SachController {
 	}
 	
 	
-	@GetMapping("/book/login")
+//	@GetMapping("/book/{masach}/printBill")
+//	public String viewBill( Model model, RedirectAttributes redirect,
+//			@PathVariable("masach") Integer masach) {  // @Valid Contact contact để kích hoạt cơ chế validation cho contact(trong entities ), lấy result làm biding
+//			
+//		Hoadon bills = hoadonService.findByMasach(masach);
+//		
+//    	Sach ms = bookService.findById(masach);
+//    
+//	    
+//	    
+//	   
+//	
+//
+//	    
+//    	model.addAttribute("book", ms );
+//    	model.addAttribute("bills", bills);
+//    	model.addAttribute("tongcong", bills.getGiaca());
+//    	
+//	    return "bill";
+//	}
+	
+	
+	@GetMapping("/book/{madonhang}/chitietdonhang")
+	public String xemdonhang( Model model, RedirectAttributes redirect,
+			@PathVariable("madonhang") Integer madonhang) {  // @Valid Contact contact để kích hoạt cơ chế validation cho contact(trong entities ), lấy result làm biding
+			
+		Hoadon bills = hoadonService.findById(madonhang);
+		
+    	Sach ms = bookService.findById(bills.getMasach());
+    
+	    
+	    
+	   
+	
+
+	    
+    	model.addAttribute("book", ms );
+    	model.addAttribute("bills", bills);
+    	model.addAttribute("tongcong", bills.getGiaca());
+    	
+	    return "donhang";
+	}
+	
+	
+	@GetMapping("/book/{madonhang}/xacnhandonhang")
+	public String xacnhandonhang( Model model, RedirectAttributes redirect,
+			@PathVariable("madonhang") Integer madonhang) {  // @Valid Contact contact để kích hoạt cơ chế validation cho contact(trong entities ), lấy result làm biding
+			
+		Hoadon bills = hoadonService.findById(madonhang);
+		
+    	bills.setTrangthai(1);
+    	
+    	hoadonService.save(bills);
+    
+    	redirect.addFlashAttribute("successMessage", "Xác nhận đơn hàng thành công!, mã đơn: " + madonhang);
+	    return "redirect:/book/admin/donhang";
+	    
+	}
+	
+	
+	@GetMapping("/book/{madonhang}/xacnhanthanhtoan")
+	public String xacnhanthanhtoan( Model model, RedirectAttributes redirect,
+			@PathVariable("madonhang") Integer madonhang) {  // @Valid Contact contact để kích hoạt cơ chế validation cho contact(trong entities ), lấy result làm biding
+			
+		Hoadon bills = hoadonService.findById(madonhang);
+		
+    	bills.setTrangthai(3);
+    	
+    	hoadonService.save(bills);
+    
+    	redirect.addFlashAttribute("successMessage", "Xác nhận thanh toán thành công!, mã đơn: " + madonhang);
+	    return "redirect:/book/admin/donhang";
+	    
+	}
+	
+	@GetMapping("/book/{madonhang}/huydonhang")
+	public String huydonhang( Model model, RedirectAttributes redirect,
+			@PathVariable("madonhang") Integer madonhang) {  // @Valid Contact contact để kích hoạt cơ chế validation cho contact(trong entities ), lấy result làm biding
+			
+		Hoadon bills = hoadonService.findById(madonhang);
+		
+    	bills.setTrangthai(2);
+    	
+    	hoadonService.save(bills);
+    
+    	redirect.addFlashAttribute("alertMessage", "Đã hủy đơn hàng " + madonhang);
+	    return "redirect:/book/admin/donhang";
+	    
+	}
+	
+	
+	@GetMapping("/book/admin/login")
 	public String login(Model model) {
 //	    model.addAttribute("user", new User());  // khởi tạo mới 1 đối tượng và gửi lên form Mỗi thuộc tính của contact tương ứng với một input trong form.
 	    return "login";
 	}
 	
-	@GetMapping("/book/register")
-	public String register(Model model) {
-	    model.addAttribute("user", new User());  // khởi tạo mới 1 đối tượng và gửi lên form Mỗi thuộc tính của contact tương ứng với một input trong form.
-	    return "register";
-	}
-	
-	@PostMapping("/user/save")
-	public String userSave(Model model, @Valid @ModelAttribute("user") User user, BindingResult result, RedirectAttributes redirect) {  // @Valid Contact contact để kích hoạt cơ chế validation cho contact(trong entities ), lấy result làm biding
-		
-	    if (result.hasErrors()){  
-	    	if (!userService.search(user.getEmail()).isEmpty()) {
-	    		model.addAttribute("emailMessage", "Email đã tồn tại");
-	    		return "register";
-		        
-	    	}
-	    	return "register";
-	        
-	    }
-	    
-	    
-	    
-	    userService.save(user);
-	    return "redirect:/book/login";
-	}
+//	@GetMapping("/book/register")
+//	public String register(Model model) {
+//	    model.addAttribute("user", new User());  // khởi tạo mới 1 đối tượng và gửi lên form Mỗi thuộc tính của contact tương ứng với một input trong form.
+//	    return "register";
+//	}
+//	
+//	@PostMapping("/user/save")
+//	public String userSave(Model model, @Valid @ModelAttribute("user") User user, BindingResult result, RedirectAttributes redirect) {  // @Valid Contact contact để kích hoạt cơ chế validation cho contact(trong entities ), lấy result làm biding
+//		
+//	    if (result.hasErrors()){  
+//	    	if (!userService.search(user.getEmail()).isEmpty()) {
+//	    		model.addAttribute("emailMessage", "Email đã tồn tại");
+//	    		return "register";
+//		        
+//	    	}
+//	    	return "register";
+//	        
+//	    }
+//	    
+//	    
+//	    
+//	    userService.save(user);
+//	    return "redirect:/book/login";
+//	}
 	
 	@PostMapping("/user/login")
 	public String userLogin(Model model, @Valid @ModelAttribute("user") User user, BindingResult result, RedirectAttributes redirect) {  // @Valid Contact contact để kích hoạt cơ chế validation cho contact(trong entities ), lấy result làm biding
@@ -416,7 +524,7 @@ public class SachController {
 public String save(Model model, @Valid @ModelAttribute("book") Sach book, BindingResult result, RedirectAttributes redirect, @RequestParam("file") MultipartFile file) {  // @Valid Contact contact để kích hoạt cơ chế validation cho contact(trong entities ), lấy result làm biding
 		
 		if (result.hasErrors() ||  file.isEmpty() ) {
-            model.addAttribute("fileError", "Please select a file to upload.");
+            model.addAttribute("fileError", "Vui lòng chọn ảnh");
 	        return "addBook";
 	    }
 		
@@ -438,71 +546,7 @@ public String save(Model model, @Valid @ModelAttribute("book") Sach book, Bindin
 	    book.setLuocxem(0); // khỏi null
 		bookService.save(book);
 		    
-	    /*switch(book.getTheloai()) {
-		    case "kinhte" :
-		    	Kinhte kinhte = new Kinhte(book.getMasach(), book.getTensach(), book.getTacgia(), book.getTheloai(), book.getGiaca(), book.getMota(),
-		    			book.getHinhanh(), book.getTonkho(), book.getSoluongdaban(), book.getNgayxuatban());
-		    	
-			    kinhteService.save(kinhte);
-			    
-			    break;
-			    
-		    case "nuoidaycon" :
-		    	Nuoidaycon nuoidaycon = new Nuoidaycon(book.getMasach(), book.getTensach(), book.getTacgia(), book.getTheloai(), book.getGiaca(), book.getMota(),
-		    			book.getHinhanh(), book.getTonkho(), book.getSoluongdaban(), book.getNgayxuatban());
-		    	
-		    	nuoidayconService.save(nuoidaycon);
-			    bookService.save(book);
-			    break;
-			    
-		    case "kynangsong" :
-		    	Kynangsong kynangsong = new Kynangsong(book.getMasach(), book.getTensach(), book.getTacgia(), book.getTheloai(), book.getGiaca(), book.getMota(),
-		    			book.getHinhanh(), book.getTonkho(), book.getSoluongdaban(), book.getNgayxuatban());
-		    	
-		    	kynangsongService.save(kynangsong);
-			    bookService.save(book);
-			    break;
-			    
-		    case "sachgiaokhoa" :
-		    	Sachgiaokhoa sachgiaokhoa= new Sachgiaokhoa(book.getMasach(), book.getTensach(), book.getTacgia(), book.getTheloai(), book.getGiaca(), book.getMota(),
-		    			book.getHinhanh(), book.getTonkho(), book.getSoluongdaban(), book.getNgayxuatban());
-		    	
-		    	sachgiaokhoaService.save(sachgiaokhoa);
-			    bookService.save(book);
-			    break;
-			    
-		    case "sachngoaingu" :
-		    	Sachngoaingu sachngoaingu = new Sachngoaingu(book.getMasach(), book.getTensach(), book.getTacgia(), book.getTheloai(), book.getGiaca(), book.getMota(),
-		    			book.getHinhanh(), book.getTonkho(), book.getSoluongdaban(), book.getNgayxuatban());
-		    	
-		    	sachngoainguService.save(sachngoaingu );
-			    bookService.save(book);
-			    break;
-			    
-		    case "thieunhi" :
-		    	Thieunhi thieunhi = new Thieunhi(book.getMasach(), book.getTensach(), book.getTacgia(), book.getTheloai(), book.getGiaca(), book.getMota(),
-		    			book.getHinhanh(), book.getTonkho(), book.getSoluongdaban(), book.getNgayxuatban());
-		    	
-		    	thieunhiService.save(thieunhi);
-			    bookService.save(book);
-			    break;
-			    
-		    case "vanhocnuocngoai" :
-		    	Vanhocnuocngoai vanhocnuocngoai = new Vanhocnuocngoai(book.getMasach(), book.getTensach(), book.getTacgia(), book.getTheloai(), book.getGiaca(), book.getMota(),
-		    			book.getHinhanh(), book.getTonkho(), book.getSoluongdaban(), book.getNgayxuatban());
-		    	
-		    	vanhocnuocngoaiService.save(vanhocnuocngoai);
-			    bookService.save(book);
-			    break;
-			
-		    case "vanhoctrongnuoc" :
-		    	Vanhoctrongnuoc vahoctrongnuoc = new Vanhoctrongnuoc(book.getMasach(), book.getTensach(), book.getTacgia(), book.getTheloai(), book.getGiaca(), book.getMota(),
-		    			book.getHinhanh(), book.getTonkho(), book.getSoluongdaban(), book.getNgayxuatban());
-		    	
-		    	vanhoctrongnuocService.save(vahoctrongnuoc);
-			    bookService.save(book);
-			    break;
-		    }*/
+	    
 	    redirect.addFlashAttribute("successMessage", "Saved book successfully!");
 	    return "redirect:/book";
 	}
@@ -524,7 +568,17 @@ public String save(Model model, @Valid @ModelAttribute("book") Sach book, Bindin
 	}
 	
 	@GetMapping("/book/{masach}/delete")
-	public String delete(@PathVariable int masach, RedirectAttributes redirect) {
+	public String delete(Model model, @PathVariable int masach, RedirectAttributes redirect) {
+		
+		List<Hoadon> bills = hoadonService.findByMasach(masach);
+		
+		System.out.print("aaaaaaaaaaaaa" + bills.isEmpty());
+		
+		if (!bills.isEmpty()) {
+			redirect.addFlashAttribute("errorMessage", "Sản phẩm này đã có giao dịch!");
+		    return "redirect:/book";
+		}
+		
 		bookService.delete(masach);
 	    redirect.addFlashAttribute("successMessage", "Deleted book successfully!");
 	    return "redirect:/book";

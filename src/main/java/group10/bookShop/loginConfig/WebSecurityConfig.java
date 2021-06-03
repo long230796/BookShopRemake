@@ -54,8 +54,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Nếu chưa login, nó sẽ redirect tới trang /login.
 //        http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
  
-        // Trang chỉ dành cho ADMIN
-        http.authorizeRequests().antMatchers("/book/add").access("hasRole('ROLE_ADMIN')");
+        // Trang chỉ dành cho ADMIN 
+        http.authorizeRequests().antMatchers("/book/admin/donhang").access("hasRole('ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/book/admin/add").access("hasRole('ROLE_ADMIN')");
         http.authorizeRequests().antMatchers("/book/{masach}/edit").access("hasRole('ROLE_ADMIN')");
         http.authorizeRequests().antMatchers("/book/{masach}/{theloai}/delete").access("hasRole('ROLE_ADMIN')");
 
@@ -68,9 +69,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().and().formLogin()//
                 // Submit URL của trang login
                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
-                .loginPage("/book/login")//
-                .defaultSuccessUrl("/book/add")//
-                .failureUrl("/book/login?error=true")//
+                .loginPage("/book/admin/login")//
+                .defaultSuccessUrl("/book/admin/add")//
+                .failureUrl("/book/admin/login?error=true")//
                 .usernameParameter("username")//
                 .passwordParameter("password")
                 // Cấu hình cho Logout Page.

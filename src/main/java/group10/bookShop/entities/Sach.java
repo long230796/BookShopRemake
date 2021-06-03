@@ -21,40 +21,41 @@ public class Sach {
 	@Column(name = "Masach", nullable = false)  // mapping đến cột id trong table dattabase
 	protected Integer masach;
 	
-	@NotEmpty   // không được bỏ trống
-	@Size(max=100)  // nhập không quá 50 kí tự
+	@NotEmpty(message = "Không được để trống")   // không được bỏ trống
+	@Size(min=15,max=100, message = "Tên sách phải từ 15 đến 100 kí tự")  // nhập không quá 50 kí tự
 	@Column(name = "Tensach", nullable = false)
 	protected String tensach;
 	
-	@NotEmpty   // không được bỏ trống
-	@Size(max=70)  // nhập không quá 50 kí tự
+	@NotEmpty(message = "Không được để trống")   // không được bỏ trống
+	@Size(min=5, max=30, message = "Tác giả phải từ 5 đến 30 kí tự")  // nhập không quá 50 kí tự
 	@Column(name = "Tacgia", nullable = false)
 	protected String tacgia;
 	
-	@NotEmpty   // không được bỏ trống
+	@NotEmpty(message = "Không được để trống")   // không được bỏ trống
 	@Column(name = "Theloai", nullable = false)
 	protected String theloai;
 	
-	@NotNull
+	@NotNull(message = "Không được để trống")
 	@Column(name = "Giaca", nullable = false)
 	protected Double giaca;
 	
+	@NotEmpty(message = "Không được để trống")
 	@Column(name = "Mota", nullable = false)
 	protected String mota;
 	
 	@Column(name = "Luocxem")
 	protected Integer luocxem;
 	
-//	@NotEmpty   // không được bỏ trống
+//	@NotEmpty(message = "Không được để trống")   // không được bỏ trống
 	@Column(name = "Hinhanh", nullable = false)
 	protected String hinhanh;
 	
-	@NotNull   // không được bỏ trống
+	@NotNull(message = "Không được để trống")   // không được bỏ trống
 	@Column(name = "Tonkho", nullable = false)
 	@NumberFormat
 	protected int tonkho;
 	
-	@NotNull  // không được bỏ trống
+	@NotNull(message = "Không được để trống")  // không được bỏ trống
 	@Column(name = "Soluongdaban", nullable = false)
 	@NumberFormat
 	protected int soluongdaban;

@@ -92,7 +92,7 @@
 
 			      <!-- Giá bán  -->
 			      <div class="md-form">
-			        <input type="text" id="materialLoginFormPrice" class="form-control" th:field="*{giaca}" th:errorclass="field-error" >
+			        <input type="number" id="materialLoginFormPrice" class="form-control" th:field="*{giaca}" th:errorclass="field-error" >
 			        <label for="materialLoginFormPassword">Giá bán</label>
 			        <!-- thongbao -->
 			         <div th:if="${#fields.hasErrors('giaca')}"  role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
@@ -113,7 +113,7 @@
 
 			      <!-- Tồn kho  -->
 			      <div class="md-form">
-			        <input type="text" id="materialLoginFormStocks" class="form-control" th:field="*{tonkho}" th:errorclass="field-error" >
+			        <input type="number" required id="materialLoginFormStocks" class="form-control" th:field="*{tonkho}" th:errorclass="field-error" >
 			        <label for="materialLoginFormPassword">Số lượng tồn kho</label>
 			        <!-- thongbao -->
 			         <div th:if="${#fields.hasErrors('tonkho')}" role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
@@ -133,7 +133,7 @@
 
 			      <!-- đã bán  -->
 			      <div class="md-form">
-			        <input type="text" id="materialLoginFormSold" class="form-control" th:field="*{soluongdaban}" th:errorclass="field-error" >
+			        <input type="number" required id="materialLoginFormSold" class="form-control" th:field="*{soluongdaban}" th:errorclass="field-error" >
 			        <label for="materialLoginFormPassword">Đã bán</label>
 			        <!-- thongbao -->
 			         <div th:if="${#fields.hasErrors('soluongdaban')}"  role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">

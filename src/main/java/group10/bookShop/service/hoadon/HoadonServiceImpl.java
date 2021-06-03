@@ -18,13 +18,23 @@ public class HoadonServiceImpl implements HoadonService{
 	private HoadonRepository hoadonRepository;  // lop service goi lop dao 
 	
 	@Override
-	public Iterable<Hoadon> findAll() {
+	public List<Hoadon> findAll() {
 		return hoadonRepository.findAll();
 	}
 	
 	@Override
+    public List<Hoadon> findMadonhangDesc() {
+        return hoadonRepository.findByOrderByMadonhangDesc();
+    }
+	
+	@Override
 	public Hoadon findById(int madonhang) {
 		return hoadonRepository.findById(madonhang).get();
+	}
+	
+	@Override
+	public List<Hoadon> findByMasach(int masach) {
+		return hoadonRepository.findByMasach(masach);
 	}
 	
 	@Override

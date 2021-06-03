@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 
@@ -24,12 +25,15 @@ public class Hoadon {
 	@Column(name = "Masach", nullable = false)  // mapping đến cột id trong table dattabase
 	private Integer masach;
 	
+	@Column(name = "Trangthai", nullable = false)  // mapping đến cột id trong table dattabase
+	private Integer trangthai;
 	
-	@Size(max=70)  // nhập không quá 50 kí tự
+	
+	@Size(max=70, message = "Không nhập quá 70 kí tự")  // nhập không quá 50 kí tự
 	@Column(name = "Tensach", nullable = false)
 	private String tensach;
 	
-	@NotEmpty   // không được bỏ trống
+	@NotEmpty(message = "Không được để trống")   // không được bỏ trống
 	@Size(max=70)  // nhập không quá 50 kí tự
 	@Column(name = "Tennguoimua", nullable = false)
 	private String tennguoimua;
@@ -43,16 +47,17 @@ public class Hoadon {
 	@Column(name = "sotien", nullable = false)
 	private Double giaca;
 	
-	@NotNull
+	@NotNull(message = "Không được để trống")
 	@Column(name = "Soluong", nullable = false)
 	private int soluong;
 	
-	@Size(max=10)
-	@NotEmpty
+//	@Size(min=10,max=10, message = "")
+//	@NotEmpty
+	@Pattern(regexp="(^0{1}\\d{9}$)", message = "Vui lòng kiểm tra định dạng")
 	@Column(name = "sdtnguoimua", nullable = false)
 	private String sodienthoainguoimua;
 	
-	@NotEmpty
+	@NotEmpty(message = "Không được để trống")
 	@Column(name = "email")  // maping trường fullname với cột Full_Name trong bảng bankAccount
 	private String emailnguoimua;
 	
@@ -60,8 +65,8 @@ public class Hoadon {
 	@Column(name = "Hinhanh", nullable = false)
 	private String hinhanh;
 	
-	@NotEmpty   // không được bỏ trống
-	@Size(max=70)  // nhập không quá 50 kí tự
+	@NotEmpty(message = "Không được để trống")   // không được bỏ trống
+	@Size(min=10,max=70, message = "Địa chỉ phải có độ dài từ 10 đến 70 kí tự")  // nhập không quá 50 kí tự
 	@Column(name = "Diachi", nullable = false)
 	private String diachi;
 	
@@ -73,11 +78,12 @@ public class Hoadon {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Hoadon(int madonhang, Integer masach, @NotEmpty @Size(max = 70) String tensach,
+	public Hoadon(int madonhang, Integer masach, Integer trangthai, @NotEmpty @Size(max = 70) String tensach,
 			@NotEmpty @Size(max = 70) String tennguoimua, String theloai, Double giaca, @NotNull int soluong,
 			@Size(max = 10) @NotEmpty String sodienthoainguoimua, @NotEmpty String emailnguoimua, String hinhanh,
 			@NotEmpty @Size(max = 70) String diachi, LocalDateTime ngayxuatban) {
 		super();
+		this.trangthai = trangthai;
 		this.madonhang = madonhang;
 		this.masach = masach;
 		this.tensach = tensach;
@@ -90,6 +96,14 @@ public class Hoadon {
 		this.hinhanh = hinhanh;
 		this.diachi = diachi;
 		this.ngayxuatban = ngayxuatban;
+	}
+	
+	public int getTrangthai() {
+		return trangthai;
+	}
+	
+	public void setTrangthai(int trangthai) {
+		this.trangthai = trangthai;
 	}
 
 	public int getMadonhang() {
